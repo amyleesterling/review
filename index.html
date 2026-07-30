@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>To review</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --ink:#EFF2F7; --dim:#9AA2B1; --faint:#666E7C; --ground:#07080B;
+          --panel:#0F1218; --line:#1D222B; --accent:#3E96F0; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink);
+         font:400 17px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+         -webkit-text-size-adjust:100%; }
+  .wrap { max-width:760px; margin:0 auto; padding:28px 16px 80px; }
+  h1 { margin:0 0 4px; font-size:26px; font-weight:500; letter-spacing:-.015em; }
+  .sub { margin:0 0 26px; color:var(--dim); font-size:15px; }
+  .item { margin:0 0 34px; padding:16px; background:var(--panel);
+          border:1px solid var(--line); border-radius:10px; }
+  .item.approved { border-color:rgba(23,160,107,.5); }
+  .item.rejected { border-color:rgba(200,70,70,.45); opacity:.62; }
+  .item.published { opacity:.5; }
+  .hd { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .hd h2 { margin:0; font-size:19px; font-weight:500; }
+  .proj { font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--accent); }
+  .badge { margin-left:auto; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+           color:var(--faint); }
+  .approved .badge { color:#3FBF8A; }
+  .rejected .badge { color:#D96A6A; }
+  video { width:100%; height:auto; display:block; border-radius:6px; background:#000; }
+  .meta { margin:11px 0 0; font-size:12.5px; letter-spacing:.05em; color:var(--faint); }
+  .note { margin:6px 0 0; font-size:14.5px; color:var(--dim); }
+  .rn { margin:8px 0 0; font-size:14.5px; color:#D9A0A0; }
+  .empty { color:var(--dim); }
+  footer { margin-top:40px; padding-top:18px; border-top:1px solid var(--line);
+           font-size:14px; color:var(--faint); }
+  code { font-family:ui-monospace,Consolas,monospace; font-size:13px; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>To review</h1>
+  <p class="sub">1 waiting. Watch, then tell any agent to approve or reject by number.</p>
+
+  <article class="item pending">
+    <div class="hd"><span class="proj">ca3</span><h2>gradient_orbit</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/ca3_gradient_orbit.jpg">
+      <source src="media/ca3_gradient_orbit.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#1 &middot; 12.5s &middot; 300 frames &middot; 24.1 MB &middot; 2026-07-29T22:14</p>
+    <p class="note">sixth of a turn across the convergence gradient</p>
+    
+  </article>
+
+  <footer>
+    <code>review.ps1 approve -Id N</code> &middot;
+    <code>review.ps1 reject -Id N -Note "why"</code> &middot;
+    <code>review.ps1 publish -Id N</code><br>
+    Publishing copies the file into the project repo. It does not write the page
+    copy or commit, because placement and caption are editorial.
+  </footer>
+</div>
+</body>
+</html>
