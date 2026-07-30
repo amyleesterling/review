@@ -65,9 +65,16 @@ switch ($Command) {
     if (-not $j) { Write-Error "no queue job #$Job"; break }
     if (-not $j.output -or -not (Test-Path $j.output)) { Write-Error "job #$Job has no output on disk"; break }
 
+    # Prefer the small web encode: reviewing on a phone should not pull a 24 MB
+    # master. Two spellings exist in the wild because ChangeExtension leaves a
+    # trailing dot, so check both rather than silently fall back to the big file.
     $src = $j.output
-    $web = [IO.Path]::ChangeExtension($src, $null) + 'web.mp4'
-    if (Test-Path $web) { $src = $web }        # prefer the small encode for review
+    $stem = [IO.Path]::Combine([IO.Path]::GetDirectoryName($j.output),
+                               [IO.Path]::GetFileNameWithoutExtension($j.output))
+    foreach ($cand in @("${stem}_web.mp4", "${stem}.web.mp4")) {
+      if (Test-Path $cand) { $src = $cand; break }
+    }
+    if ($src -eq $j.output) { Write-Warning "no web encode found for $($j.name), using the master" }
 
     $base = '{0}_{1}' -f $j.project, $j.name
     $vid  = Join-Path $MediaDir "$base.mp4"
