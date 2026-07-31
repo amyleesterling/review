@@ -1,5 +1,5 @@
 {
-    "next_id":  14,
+    "next_id":  15,
     "items":  [
                   {
                       "id":  1,
@@ -208,6 +208,22 @@
                       "note":  "24 starburst amacrine cells laid in one at a time, then rotated edge on to show they all sit in one thin band",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\retina_sac_mosaic.mp4"
+                  },
+                  {
+                      "id":  14,
+                      "job":  0,
+                      "project":  "retina",
+                      "name":  "ds_mosaic_v4",
+                      "video":  "media/retina_ds_mosaic_v4.mp4",
+                      "poster":  "media/retina_ds_mosaic_v4.jpg",
+                      "size_mb":  2,
+                      "seconds":  24,
+                      "frames":  576,
+                      "rendered":  "2026-07-31T10:49:11",
+                      "status":  "pending",
+                      "note":  "Corrected: cells now fire on the binned reported preferred direction, so hue and compass agree. Ghost raised so the mosaic stays visible between sweeps.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\retina_final_v4.mp4"
                   }
               ]
 }
