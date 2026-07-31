@@ -1,5 +1,5 @@
 {
-    "next_id":  2,
+    "next_id":  3,
     "items":  [
                   {
                       "id":  1,
@@ -16,6 +16,22 @@
                       "note":  "sixth of a turn across the convergence gradient",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\gradient_orbit.mp4"
+                  },
+                  {
+                      "id":  2,
+                      "job":  6,
+                      "project":  "retina",
+                      "name":  "ds_mosaic",
+                      "video":  "media/retina_ds_mosaic.mp4",
+                      "poster":  "media/retina_ds_mosaic.jpg",
+                      "size_mb":  3.4,
+                      "seconds":  24,
+                      "frames":  576,
+                      "rendered":  "2026-07-30T23:14:31",
+                      "status":  "pending",
+                      "note":  "180 calcium-imaged cells, hue = measured preferred direction, brightness = own tuning curve. For a 10am meeting.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\retina_ds.mp4"
                   }
               ]
 }
