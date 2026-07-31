@@ -3,6 +3,8 @@
 #
 #   .\review.ps1 status
 #   .\review.ps1 add    -Job 1                      # ingest a finished queue job
+#   .\review.ps1 add    -File D:\...\shot.mp4 -Project retina -Name mosaic
+#                                                   # ingest a render made outside the queue
 #   .\review.ps1 approve -Id 1                      # mark it good
 #   .\review.ps1 reject  -Id 1 -Note "too fast"     # mark it not good, with a reason
 #   .\review.ps1 publish -Id 1                      # copy the approved file into its site repo
@@ -19,7 +21,12 @@
 param(
   [Parameter(Position = 0)][ValidateSet('status','add','approve','reject','publish','page')]
   [string]$Command = 'status',
-  [int]$Job, [int]$Id, [string]$Note = ''
+  [int]$Job, [int]$Id, [string]$Note = '',
+  # An ad hoc render, one made outside the nightly queue. Not every render is
+  # queued: a shot designed and run inside a single conversation never gets a job
+  # id, and before this it could not be shelved at all, which meant the only
+  # renders Amy could review were the ones that happened overnight.
+  [string]$File, [string]$Project, [string]$Name
 )
 
 $ErrorActionPreference = 'Continue'
@@ -32,6 +39,7 @@ $Destinations = @{
   ca3     = 'C:\Users\amyle\ca3'
   banc    = 'C:\Users\amyle\banc'
   microns = 'C:\Users\amyle\microns'
+  retina  = 'C:\Users\amyle\retina'
 }
 
 function ReadJson($p, $fallback) {
@@ -60,10 +68,21 @@ $state = ReadJson $StateFile ([pscustomobject]@{ next_id = 1; items = @() })
 switch ($Command) {
 
   'add' {
-    $q = ReadJson $QueueFile $null
-    $j = @($q.jobs | Where-Object { $_.id -eq $Job })[0]
-    if (-not $j) { Write-Error "no queue job #$Job"; break }
-    if (-not $j.output -or -not (Test-Path $j.output)) { Write-Error "job #$Job has no output on disk"; break }
+    if ($File) {
+      if (-not (Test-Path $File)) { Write-Error "no file at $File"; break }
+      if (-not $Project -or -not $Name) { Write-Error "-File also needs -Project and -Name"; break }
+      # Shaped like a queue job so everything downstream is unchanged. id 0 marks
+      # it as having no job behind it.
+      $j = [pscustomobject]@{
+        id = 0; project = $Project; name = $Name; output = (Resolve-Path $File).Path
+        finished = (Get-Date -Format 's'); note = $Note
+      }
+    } else {
+      $q = ReadJson $QueueFile $null
+      $j = @($q.jobs | Where-Object { $_.id -eq $Job })[0]
+      if (-not $j) { Write-Error "no queue job #$Job"; break }
+      if (-not $j.output -or -not (Test-Path $j.output)) { Write-Error "job #$Job has no output on disk"; break }
+    }
 
     # Prefer the small web encode: reviewing on a phone should not pull a 24 MB
     # master. Two spellings exist in the wild because ChangeExtension leaves a
