@@ -151,7 +151,13 @@ switch ($Command) {
 
   'page' {
     $rows = ''
-    foreach ($i in @($state.items | Sort-Object -Property @{E={$_.id}} -Descending)) {
+    # Newest render first. Sorting by id would give ingest order, which is not the
+    # same thing: the shelf was backfilled with older renders in one pass, so their
+    # ids run higher than work that was actually made earlier.
+    $ordered = @($state.items | Sort-Object -Property `
+        @{E = { if ($_.rendered) { [datetime]$_.rendered } else { [datetime]'1900-01-01' } } }, `
+        @{E = { $_.id } } -Descending)
+    foreach ($i in $ordered) {
       $badge = switch ($i.status) {
         'pending'   { 'pending' }
         'approved'  { 'approved' }
