@@ -197,7 +197,9 @@
                       "status":  "pending",
                       "note":  "ghost wireframe; each cell takes colour only at its own best direction. readout, compass and key.",
                       "review_note":  "",
-                      "source":  "D:\\Meshes\\renders\\retina_final_v3.mp4"
+                      "source":  "D:\\Meshes\\renders\\retina_final_v3.mp4",
+                      "buried":  true,
+                      "issue":  "hue and compass did not agree: 29 of 64 cells lit in a colour more than a full 45 degree step from the direction the compass read"
                   },
                   {
                       "id":  13,
