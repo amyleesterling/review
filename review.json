@@ -31,7 +31,9 @@
                       "status":  "pending",
                       "note":  "180 calcium-imaged cells, hue = measured preferred direction, brightness = own tuning curve. For a 10am meeting.",
                       "review_note":  "",
-                      "source":  "D:\\Meshes\\renders\\retina_ds.mp4"
+                      "source":  "D:\\Meshes\\renders\\retina_ds.mp4",
+                      "buried":  true,
+                      "issue":  ""
                   },
                   {
                       "id":  3,
