@@ -306,9 +306,11 @@ switch ($Command) {
     if ($c_live) {
       $rows += @"
 
-  <h2 class="sect"><span class="sicon">&#9679;</span>Deployed<span class="scount">$c_live</span></h2>
-  <p class="sblurb">Byte-for-byte identical to a file currently sitting in a project repo. Verified by hash, not by filename.</p>
+  <details class="depwrap" open>
+    <summary><span class="sicon">&#9679;</span>Deployed<span class="scount">$c_live</span><span class="sopen">already on a site</span></summary>
+    <p class="sblurb">Byte-for-byte identical to a file currently sitting in a project repo. Verified by hash, not by filename.</p>
 $live
+  </details>
 "@
     }
     if ($c_dead) {
@@ -408,21 +410,34 @@ $og
                   text-transform:uppercase; color:#6B7A8C; margin-right:8px; }
   .epitaph em { font-style:italic; color:#7D8B9C; }
 
-  /* ---- OG, collapsed by default ------------------------------------------- */
-  .ogwrap { margin:52px 0 0; }
-  .ogwrap > summary {
+  /* ---- foldable sections ---------------------------------------------------
+     Deployed opens by default because it is a live inventory worth seeing. OG
+     stays shut because it is history. Same styling for both, so a reader learns
+     one affordance rather than two. */
+  .ogwrap, .depwrap { margin:52px 0 0; }
+  .ogwrap > summary, .depwrap > summary {
     display:flex; align-items:center; gap:10px; cursor:pointer; list-style:none;
     font-size:13px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
     color:var(--faint); padding-bottom:9px; border-bottom:1px solid var(--line);
   }
-  .ogwrap > summary::-webkit-details-marker { display:none; }
-  .ogwrap > summary:hover { color:var(--dim); }
+  .ogwrap > summary::-webkit-details-marker,
+  .depwrap > summary::-webkit-details-marker { display:none; }
+  .ogwrap > summary:hover, .depwrap > summary:hover { color:var(--dim); }
   .ogwrap > summary .sicon { color:#E8A93A; }
-  .ogwrap > summary .sopen { font-size:10.5px; letter-spacing:.12em; color:#5A6472;
-                             text-transform:none; }
-  .ogwrap > summary .scount { margin-left:auto; }
-  .ogwrap[open] > summary { margin-bottom:4px; }
+  .depwrap > summary .sicon { color:#3FBF8A; font-size:11px; }
+  .ogwrap > summary .sopen, .depwrap > summary .sopen {
+    font-size:10.5px; letter-spacing:.12em; color:#5A6472; text-transform:none; }
+  .ogwrap > summary .scount, .depwrap > summary .scount { margin-left:auto; }
+  .ogwrap[open] > summary, .depwrap[open] > summary { margin-bottom:4px; }
   .ogwrap .item { opacity:.82; }
+  /* the caret, so it reads as foldable rather than as a heading that happens to
+     be clickable. It points down when open, right when shut. */
+  .ogwrap > summary::after, .depwrap > summary::after {
+    content:"\25BE"; font-size:11px; color:#5A6472; margin-left:2px;
+    transition:transform .22s ease; transform-origin:50% 50%;
+  }
+  .ogwrap:not([open]) > summary::after,
+  .depwrap:not([open]) > summary::after { transform:rotate(-90deg); }
   footer { margin-top:40px; padding-top:18px; border-top:1px solid var(--line);
            font-size:14px; color:var(--faint); }
   code { font-family:ui-monospace,Consolas,monospace; font-size:13px; color:var(--dim); }
