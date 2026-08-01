@@ -204,9 +204,9 @@
                       "seconds":  15,
                       "frames":  360,
                       "rendered":  "2026-07-31T10:26:13",
-                      "status":  "pending",
+                      "status":  "approved",
                       "note":  "24 starburst amacrine cells laid in one at a time, then rotated edge on to show they all sit in one thin band",
-                      "review_note":  "",
+                      "review_note":  "Published to the retina page",
                       "source":  "D:\\Meshes\\renders\\retina_sac_mosaic.mp4"
                   },
                   {
