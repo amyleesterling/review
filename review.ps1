@@ -19,9 +19,12 @@
 
 [CmdletBinding()]
 param(
-  [Parameter(Position = 0)][ValidateSet('status','add','approve','reject','publish','page')]
+  [Parameter(Position = 0)][ValidateSet('status','add','approve','reject','publish','page','bury','unbury')]
   [string]$Command = 'status',
   [int]$Job, [int]$Id, [string]$Note = '',
+  # Why a render was retired. Optional: some are buried simply for being an older
+  # take, and inventing a fault for those would be worse than saying nothing.
+  [string]$Issue = '',
   # An ad hoc render, one made outside the nightly queue. Not every render is
   # queued: a shot designed and run inside a single conversation never gets a job
   # id, and before this it could not be shelved at all, which meant the only
@@ -40,6 +43,15 @@ $Destinations = @{
   banc    = 'C:\Users\amyle\banc'
   microns = 'C:\Users\amyle\microns'
   retina  = 'C:\Users\amyle\retina'
+}
+
+# Where each project is published. Used to turn a verified hash match into a link
+# the reader can click, so "deployed" is checkable rather than a claim.
+$Projects_Url = @{
+  ca3     = 'https://amyleesterling.github.io/ca3/'
+  banc    = 'https://amyleesterling.github.io/banc/'
+  microns = 'https://amyleesterling.github.io/microns/'
+  retina  = 'https://amyleesterling.github.io/retina/'
 }
 
 function ReadJson($p, $fallback) {
@@ -124,6 +136,19 @@ switch ($Command) {
     Write-Output ("added #{0}  {1}/{2}  {3}s  {4} MB" -f $item.id, $j.project, $j.name, $dur, $item.size_mb)
   }
 
+  { $_ -in 'bury','unbury' } {
+    foreach ($i in $state.items) {
+      if ($i.id -eq $Id) {
+        $i | Add-Member -NotePropertyName buried -NotePropertyValue ($Command -eq 'bury') -Force
+        $i | Add-Member -NotePropertyName issue  -NotePropertyValue $Issue -Force
+      }
+    }
+    WriteJson $StateFile $state
+    & $PSCommandPath page
+    Sync ("review: {0} #{1}" -f $Command, $Id)
+    Write-Output ("#{0} -> {1}{2}" -f $Id, $Command, $(if ($Issue) { ": $Issue" } else { '' }))
+  }
+
   { $_ -in 'approve','reject' } {
     foreach ($i in $state.items) {
       if ($i.id -eq $Id) {
@@ -169,14 +194,58 @@ switch ($Command) {
   }
 
   'page' {
-    $rows = ''
+    # ---- which section does each item belong in -------------------------------
+    # Exactly one, so the top of the page holds only what still needs a decision.
+    # Precedence: buried beats deployed beats OG beats needs-review.
+    #
+    # The OG cutoff is a FIXED DATE, not "before today". A relative cutoff would
+    # quietly swallow the whole shelf as the days pass, and the section means
+    # something specific: the work from the first 48 hours of this project.
+    $OG_CUTOFF = [datetime]'2026-07-31T00:00:00'
+
+    # DEPLOYED IS VERIFIED, NOT ASSERTED. A file is only called deployed if its
+    # bytes are byte-for-byte identical to a file sitting in a project repo. A
+    # name match would be a guess, and a render that was re-encoded or superseded
+    # under the same name would be labelled live when it is not.
+    $deployedHashes = @{}
+    foreach ($proj in $Destinations.Keys) {
+      $dir = $Destinations[$proj]
+      if (-not (Test-Path $dir)) { continue }
+      foreach ($f in Get-ChildItem $dir -Recurse -Include *.mp4 -ErrorAction SilentlyContinue) {
+        $h = (Get-FileHash $f.FullName -Algorithm SHA256).Hash
+        if (-not $deployedHashes.ContainsKey($h)) {
+          $deployedHashes[$h] = @{ project = $proj; url = $Projects_Url[$proj]; file = $f.Name }
+        }
+      }
+    }
+
+    foreach ($i in $state.items) {
+      $sect = 'review'
+      $dep = $null
+      $local = Join-Path $RepoDir $i.video
+      if (Test-Path $local) {
+        $h = (Get-FileHash $local -Algorithm SHA256).Hash
+        if ($deployedHashes.ContainsKey($h)) { $dep = $deployedHashes[$h] }
+      }
+      $rendered = if ($i.rendered) { [datetime]$i.rendered } else { [datetime]'1900-01-01' }
+      if ($i.buried)         { $sect = 'graveyard' }
+      elseif ($dep)          { $sect = 'deployed' }
+      elseif ($rendered -lt $OG_CUTOFF) { $sect = 'og' }
+      $i | Add-Member -NotePropertyName section -NotePropertyValue $sect -Force
+      $i | Add-Member -NotePropertyName deployed_url -NotePropertyValue $(if ($dep) { $dep.url } else { '' }) -Force
+      $i | Add-Member -NotePropertyName deployed_as -NotePropertyValue $(if ($dep) { $dep.file } else { '' }) -Force
+    }
+
     # Newest render first. Sorting by id would give ingest order, which is not the
     # same thing: the shelf was backfilled with older renders in one pass, so their
     # ids run higher than work that was actually made earlier.
     $ordered = @($state.items | Sort-Object -Property `
         @{E = { if ($_.rendered) { [datetime]$_.rendered } else { [datetime]'1900-01-01' } } }, `
         @{E = { $_.id } } -Descending)
-    foreach ($i in $ordered) {
+
+    function Render-Items($items) {
+      $out = ''
+      foreach ($i in $items) {
       $badge = switch ($i.status) {
         'pending'   { 'pending' }
         'approved'  { 'approved' }
@@ -190,8 +259,23 @@ switch ($Command) {
       if ($i.rendered){ $meta += $i.rendered }
       $rn = ''
       if ($i.review_note) { $rn = '<p class="rn">' + $i.review_note + '</p>' }
-      $rows += @"
-  <article class="item $($i.status)">
+      $extra = ''
+      if ($i.section -eq 'graveyard') {
+        # An epitaph only when there is a real reason. Several of these were
+        # buried simply for being an earlier take, and inventing a fault for
+        # those would misrepresent the history.
+        $extra = if ($i.issue) {
+          '<p class="epitaph"><span class="rip">cause of death</span> ' + $i.issue + '</p>'
+        } else {
+          '<p class="epitaph"><span class="rip">cause of death</span> <em>natural causes, superseded</em></p>'
+        }
+      }
+      if ($i.section -eq 'deployed' -and $i.deployed_url) {
+        $extra = '<p class="live"><span class="dot"></span>live at <a href="' + $i.deployed_url +
+                 '">' + $i.deployed_url + '</a> as <code>' + $i.deployed_as + '</code></p>'
+      }
+      $out += @"
+  <article class="item $($i.status) sec-$($i.section)">
     <div class="hd"><span class="proj">$($i.project)</span><h2>$($i.name)</h2><span class="badge">$badge</span></div>
     <video controls playsinline muted loop preload="metadata" poster="$($i.poster)">
       <source src="$($i.video)" type="video/mp4">
@@ -199,12 +283,54 @@ switch ($Command) {
     <p class="meta">#$($i.id) &middot; $([string]::Join(' &middot; ', $meta))</p>
     <p class="note">$($i.note)</p>
     $rn
+    $extra
   </article>
 
 "@
+      }
+      return $out
     }
-    if (-not $rows) { $rows = '  <p class="empty">Nothing waiting. Renders appear here when the queue finishes one.</p>' }
-    $n = @($state.items | Where-Object { $_.status -eq 'pending' }).Count
+
+    $needs = Render-Items @($ordered | Where-Object { $_.section -eq 'review' })
+    $live  = Render-Items @($ordered | Where-Object { $_.section -eq 'deployed' })
+    $dead  = Render-Items @($ordered | Where-Object { $_.section -eq 'graveyard' })
+    $og    = Render-Items @($ordered | Where-Object { $_.section -eq 'og' })
+    if (-not $needs) { $needs = '  <p class="empty">Nothing waiting. Everything is deployed, buried or filed under OG.</p>' }
+
+    $c_live = @($ordered | Where-Object { $_.section -eq 'deployed' }).Count
+    $c_dead = @($ordered | Where-Object { $_.section -eq 'graveyard' }).Count
+    $c_og   = @($ordered | Where-Object { $_.section -eq 'og' }).Count
+    $n = @($ordered | Where-Object { $_.section -eq 'review' }).Count
+
+    $rows = $needs
+    if ($c_live) {
+      $rows += @"
+
+  <h2 class="sect"><span class="sicon">&#9679;</span>Deployed<span class="scount">$c_live</span></h2>
+  <p class="sblurb">Byte-for-byte identical to a file currently sitting in a project repo. Verified by hash, not by filename.</p>
+$live
+"@
+    }
+    if ($c_dead) {
+      $rows += @"
+
+  <h2 class="sect grave"><span class="sicon">&#9760;</span>Graveyard<span class="scount">$c_dead</span></h2>
+  <p class="sblurb">Here lie the renders that did not make it. They are kept because a wrong
+  version you can still watch is worth more than one you deleted, and because most of these
+  were only wrong in a way nobody could see until it was rendered.</p>
+$dead
+"@
+    }
+    if ($c_og) {
+      $rows += @"
+
+  <details class="ogwrap">
+    <summary><span class="sicon">&#9733;</span>OG<span class="scount">$c_og</span><span class="sopen">the first 48 hours</span></summary>
+    <p class="sblurb">Everything made before 31 July 2026, when this whole pipeline was two days old.</p>
+$og
+  </details>
+"@
+    }
     $html = @"
 <!doctype html>
 <html lang="en">
@@ -240,6 +366,63 @@ switch ($Command) {
   .note { margin:6px 0 0; font-size:14.5px; color:var(--dim); }
   .rn { margin:8px 0 0; font-size:14.5px; color:#D9A0A0; }
   .empty { color:var(--dim); }
+
+  /* ---- section headers ---------------------------------------------------- */
+  .sect { display:flex; align-items:center; gap:10px; margin:52px 0 4px;
+          font-size:13px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--faint); padding-bottom:9px; border-bottom:1px solid var(--line); }
+  .sicon { font-size:16px; line-height:1; }
+  .scount { margin-left:auto; font-variant-numeric:tabular-nums; letter-spacing:.06em;
+            color:var(--dim); }
+  .sblurb { margin:12px 0 22px; font-size:14px; line-height:1.6; color:var(--dim); }
+
+  /* ---- deployed ----------------------------------------------------------- */
+  .sec-deployed { border-color:rgba(62,150,240,.34); }
+  .live { margin:9px 0 0; font-size:13.5px; color:#7FC4F5; display:flex;
+          align-items:center; gap:8px; flex-wrap:wrap; }
+  .live a { color:#7FC4F5; }
+  .live .dot { width:7px; height:7px; border-radius:50%; background:#3FBF8A;
+               box-shadow:0 0 8px rgba(63,191,138,.9); flex:0 0 auto;
+               animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+
+  /* ---- graveyard ----------------------------------------------------------
+     Buried, not deleted. The stones lean, the video is drained of colour until
+     you hover, and each one carries a cause of death where there is an honest
+     one to give. */
+  .sect.grave { color:#8FA0B4; border-bottom-color:#26303C; }
+  .sect.grave .sicon { font-size:18px; filter:grayscale(1) opacity(.8); }
+  .sec-graveyard {
+    background:linear-gradient(180deg, rgba(18,22,29,.9), rgba(12,15,20,.9));
+    border-color:#232B36; position:relative;
+    border-radius:34px 34px 8px 8px;         /* a headstone */
+    transform:rotate(-.5deg); transition:transform .3s ease, filter .3s ease;
+  }
+  .sec-graveyard:nth-of-type(even) { transform:rotate(.6deg); }
+  .sec-graveyard:hover { transform:rotate(0deg); }
+  .sec-graveyard video { filter:grayscale(.85) brightness(.72); transition:filter .45s ease; }
+  .sec-graveyard:hover video { filter:grayscale(0) brightness(1); }
+  .sec-graveyard h2 { color:#A9B6C6; }
+  .epitaph { margin:10px 0 0; font-size:14px; color:#93A2B4; line-height:1.55; }
+  .epitaph .rip { display:inline-block; font-size:10px; letter-spacing:.18em;
+                  text-transform:uppercase; color:#6B7A8C; margin-right:8px; }
+  .epitaph em { font-style:italic; color:#7D8B9C; }
+
+  /* ---- OG, collapsed by default ------------------------------------------- */
+  .ogwrap { margin:52px 0 0; }
+  .ogwrap > summary {
+    display:flex; align-items:center; gap:10px; cursor:pointer; list-style:none;
+    font-size:13px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--faint); padding-bottom:9px; border-bottom:1px solid var(--line);
+  }
+  .ogwrap > summary::-webkit-details-marker { display:none; }
+  .ogwrap > summary:hover { color:var(--dim); }
+  .ogwrap > summary .sicon { color:#E8A93A; }
+  .ogwrap > summary .sopen { font-size:10.5px; letter-spacing:.12em; color:#5A6472;
+                             text-transform:none; }
+  .ogwrap > summary .scount { margin-left:auto; }
+  .ogwrap[open] > summary { margin-bottom:4px; }
+  .ogwrap .item { opacity:.82; }
   footer { margin-top:40px; padding-top:18px; border-top:1px solid var(--line);
            font-size:14px; color:var(--faint); }
   code { font-family:ui-monospace,Consolas,monospace; font-size:13px; color:var(--dim); }
@@ -248,13 +431,15 @@ switch ($Command) {
 <body>
 <div class="wrap">
   <h1>To review</h1>
-  <p class="sub">$n waiting. Watch, then tell any agent to approve or reject by number.</p>
+  <p class="sub">$n waiting. Watch, then tell any agent to approve or reject by number.
+  Everything already deployed, buried or from the first 48 hours is filed below.</p>
 
 $rows
   <footer>
     <code>review.ps1 approve -Id N</code> &middot;
     <code>review.ps1 reject -Id N -Note "why"</code> &middot;
-    <code>review.ps1 publish -Id N</code><br>
+    <code>review.ps1 publish -Id N</code> &middot;
+    <code>review.ps1 bury -Id N -Issue "why"</code><br>
     Publishing copies the file into the project repo. It does not write the page
     copy or commit, because placement and caption are editorial.
   </footer>

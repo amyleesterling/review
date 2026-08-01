@@ -47,7 +47,9 @@
                       "status":  "pending",
                       "note":  "202 calcium-imaged cells, CA3 palette, somas to camera, with readout overlays",
                       "review_note":  "",
-                      "source":  "D:\\Meshes\\renders\\retina_final.mp4"
+                      "source":  "D:\\Meshes\\renders\\retina_final.mp4",
+                      "buried":  true,
+                      "issue":  "first version"
                   },
                   {
                       "id":  4,

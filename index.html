@@ -32,6 +32,63 @@
   .note { margin:6px 0 0; font-size:14.5px; color:var(--dim); }
   .rn { margin:8px 0 0; font-size:14.5px; color:#D9A0A0; }
   .empty { color:var(--dim); }
+
+  /* ---- section headers ---------------------------------------------------- */
+  .sect { display:flex; align-items:center; gap:10px; margin:52px 0 4px;
+          font-size:13px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--faint); padding-bottom:9px; border-bottom:1px solid var(--line); }
+  .sicon { font-size:16px; line-height:1; }
+  .scount { margin-left:auto; font-variant-numeric:tabular-nums; letter-spacing:.06em;
+            color:var(--dim); }
+  .sblurb { margin:12px 0 22px; font-size:14px; line-height:1.6; color:var(--dim); }
+
+  /* ---- deployed ----------------------------------------------------------- */
+  .sec-deployed { border-color:rgba(62,150,240,.34); }
+  .live { margin:9px 0 0; font-size:13.5px; color:#7FC4F5; display:flex;
+          align-items:center; gap:8px; flex-wrap:wrap; }
+  .live a { color:#7FC4F5; }
+  .live .dot { width:7px; height:7px; border-radius:50%; background:#3FBF8A;
+               box-shadow:0 0 8px rgba(63,191,138,.9); flex:0 0 auto;
+               animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+
+  /* ---- graveyard ----------------------------------------------------------
+     Buried, not deleted. The stones lean, the video is drained of colour until
+     you hover, and each one carries a cause of death where there is an honest
+     one to give. */
+  .sect.grave { color:#8FA0B4; border-bottom-color:#26303C; }
+  .sect.grave .sicon { font-size:18px; filter:grayscale(1) opacity(.8); }
+  .sec-graveyard {
+    background:linear-gradient(180deg, rgba(18,22,29,.9), rgba(12,15,20,.9));
+    border-color:#232B36; position:relative;
+    border-radius:34px 34px 8px 8px;         /* a headstone */
+    transform:rotate(-.5deg); transition:transform .3s ease, filter .3s ease;
+  }
+  .sec-graveyard:nth-of-type(even) { transform:rotate(.6deg); }
+  .sec-graveyard:hover { transform:rotate(0deg); }
+  .sec-graveyard video { filter:grayscale(.85) brightness(.72); transition:filter .45s ease; }
+  .sec-graveyard:hover video { filter:grayscale(0) brightness(1); }
+  .sec-graveyard h2 { color:#A9B6C6; }
+  .epitaph { margin:10px 0 0; font-size:14px; color:#93A2B4; line-height:1.55; }
+  .epitaph .rip { display:inline-block; font-size:10px; letter-spacing:.18em;
+                  text-transform:uppercase; color:#6B7A8C; margin-right:8px; }
+  .epitaph em { font-style:italic; color:#7D8B9C; }
+
+  /* ---- OG, collapsed by default ------------------------------------------- */
+  .ogwrap { margin:52px 0 0; }
+  .ogwrap > summary {
+    display:flex; align-items:center; gap:10px; cursor:pointer; list-style:none;
+    font-size:13px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--faint); padding-bottom:9px; border-bottom:1px solid var(--line);
+  }
+  .ogwrap > summary::-webkit-details-marker { display:none; }
+  .ogwrap > summary:hover { color:var(--dim); }
+  .ogwrap > summary .sicon { color:#E8A93A; }
+  .ogwrap > summary .sopen { font-size:10.5px; letter-spacing:.12em; color:#5A6472;
+                             text-transform:none; }
+  .ogwrap > summary .scount { margin-left:auto; }
+  .ogwrap[open] > summary { margin-bottom:4px; }
+  .ogwrap .item { opacity:.82; }
   footer { margin-top:40px; padding-top:18px; border-top:1px solid var(--line);
            font-size:14px; color:var(--faint); }
   code { font-family:ui-monospace,Consolas,monospace; font-size:13px; color:var(--dim); }
@@ -40,9 +97,10 @@
 <body>
 <div class="wrap">
   <h1>To review</h1>
-  <p class="sub">14 waiting. Watch, then tell any agent to approve or reject by number.</p>
+  <p class="sub">2 waiting. Watch, then tell any agent to approve or reject by number.
+  Everything already deployed, buried or from the first 48 hours is filed below.</p>
 
-  <article class="item pending">
+  <article class="item pending sec-review">
     <div class="hd"><span class="proj">microns</span><h2>cortex_orbit_v2</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/microns_cortex_orbit_v2.jpg">
       <source src="media/microns_cortex_orbit_v2.mp4" type="video/mp4">
@@ -50,26 +108,9 @@
     <p class="meta">#15 &middot; 10s &middot; 240 frames &middot; 16.6 MB &middot; 2026-07-31T22:09:00</p>
     <p class="note">camera ends tilted up, aiming mid column not below it. NO colour jitter, Amy does not want it: pure depth ramp.</p>
     
-  </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_v4</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_v4.jpg">
-      <source src="media/retina_ds_mosaic_v4.mp4" type="video/mp4">
-    </video>
-    <p class="meta">#14 &middot; 24s &middot; 576 frames &middot; 2 MB &middot; 2026-07-31T10:49:11</p>
-    <p class="note">Corrected: cells now fire on the binned reported preferred direction, so hue and compass agree. Ghost raised so the mosaic stays visible between sweeps.</p>
     
   </article>
-  <article class="item approved">
-    <div class="hd"><span class="proj">retina</span><h2>sac_mosaic</h2><span class="badge">approved</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/retina_sac_mosaic.jpg">
-      <source src="media/retina_sac_mosaic.mp4" type="video/mp4">
-    </video>
-    <p class="meta">#13 &middot; 15s &middot; 360 frames &middot; 2.1 MB &middot; 2026-07-31T10:26:13</p>
-    <p class="note">24 starburst amacrine cells laid in one at a time, then rotated edge on to show they all sit in one thin band</p>
-    <p class="rn">Published to the retina page</p>
-  </article>
-  <article class="item pending">
+  <article class="item pending sec-review">
     <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_v3</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_v3.jpg">
       <source src="media/retina_ds_mosaic_v3.mp4" type="video/mp4">
@@ -77,44 +118,32 @@
     <p class="meta">#12 &middot; 24.0s &middot; 576 frames &middot; 2.6 MB &middot; 2026-07-31T09:45</p>
     <p class="note">ghost wireframe; each cell takes colour only at its own best direction. readout, compass and key.</p>
     
-  </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_final</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_final.jpg">
-      <source src="media/retina_ds_mosaic_final.mp4" type="video/mp4">
-    </video>
-    <p class="meta">#3 &middot; 24s &middot; 576 frames &middot; 4 MB &middot; 2026-07-31T08:29:21</p>
-    <p class="note">202 calcium-imaged cells, CA3 palette, somas to camera, with readout overlays</p>
     
   </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic.jpg">
-      <source src="media/retina_ds_mosaic.mp4" type="video/mp4">
+
+  <h2 class="sect"><span class="sicon">&#9679;</span>Deployed<span class="scount">7</span></h2>
+  <p class="sblurb">Byte-for-byte identical to a file currently sitting in a project repo. Verified by hash, not by filename.</p>
+  <article class="item pending sec-deployed">
+    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_v4</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_v4.jpg">
+      <source src="media/retina_ds_mosaic_v4.mp4" type="video/mp4">
     </video>
-    <p class="meta">#2 &middot; 24s &middot; 576 frames &middot; 3.4 MB &middot; 2026-07-30T23:14:31</p>
-    <p class="note">180 calcium-imaged cells, hue = measured preferred direction, brightness = own tuning curve. For a 10am meeting.</p>
+    <p class="meta">#14 &middot; 24s &middot; 576 frames &middot; 2 MB &middot; 2026-07-31T10:49:11</p>
+    <p class="note">Corrected: cells now fire on the binned reported preferred direction, so hue and compass agree. Ghost raised so the mosaic stays visible between sweeps.</p>
     
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/retina/">https://amyleesterling.github.io/retina/</a> as <code>ds_mosaic.mp4</code></p>
   </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_v1</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_v1.jpg">
-      <source src="media/retina_ds_mosaic_v1.mp4" type="video/mp4">
+  <article class="item approved sec-deployed">
+    <div class="hd"><span class="proj">retina</span><h2>sac_mosaic</h2><span class="badge">approved</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/retina_sac_mosaic.jpg">
+      <source src="media/retina_sac_mosaic.mp4" type="video/mp4">
     </video>
-    <p class="meta">#4 &middot; 24s &middot; 576 frames &middot; 3.4 MB &middot; 2026-07-30T23:12:41</p>
-    <p class="note">first pass: rainbow palette, somas facing away. superseded</p>
-    
+    <p class="meta">#13 &middot; 15s &middot; 360 frames &middot; 2.1 MB &middot; 2026-07-31T10:26:13</p>
+    <p class="note">24 starburst amacrine cells laid in one at a time, then rotated edge on to show they all sit in one thin band</p>
+    <p class="rn">Published to the retina page</p>
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/retina/">https://amyleesterling.github.io/retina/</a> as <code>sac_mosaic.mp4</code></p>
   </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">microns</span><h2>cortex_orbit</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/microns_cortex_orbit.jpg">
-      <source src="media/microns_cortex_orbit.mp4" type="video/mp4">
-    </video>
-    <p class="meta">#5 &middot; 10s &middot; 240 frames &middot; 15.4 MB &middot; 2026-07-30T22:35:59</p>
-    <p class="note">orbit 72 deg then descend, per-area decimated</p>
-    
-  </article>
-  <article class="item pending">
+  <article class="item pending sec-deployed">
     <div class="hd"><span class="proj">ca3</span><h2>scale_ladder</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/ca3_scale_ladder.jpg">
       <source src="media/ca3_scale_ladder.mp4" type="video/mp4">
@@ -122,8 +151,9 @@
     <p class="meta">#8 &middot; 27.2s &middot; 654 frames &middot; 16.8 MB &middot; 2026-07-30T11:45:23</p>
     <p class="note">block to cell to thorn to synapse</p>
     
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/ca3/">https://amyleesterling.github.io/ca3/</a> as <code>scale_ladder.mp4</code></p>
   </article>
-  <article class="item pending">
+  <article class="item pending sec-deployed">
     <div class="hd"><span class="proj">ca3</span><h2>inhibition</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/ca3_inhibition.jpg">
       <source src="media/ca3_inhibition.mp4" type="video/mp4">
@@ -131,8 +161,9 @@
     <p class="meta">#9 &middot; 18s &middot; 432 frames &middot; 12.7 MB &middot; 2026-07-30T05:51:35</p>
     <p class="note">feedforward inhibition, 7 beats</p>
     
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/ca3/">https://amyleesterling.github.io/ca3/</a> as <code>inhibition.mp4</code></p>
   </article>
-  <article class="item pending">
+  <article class="item pending sec-deployed">
     <div class="hd"><span class="proj">ca3</span><h2>gradient_orbit</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/ca3_gradient_orbit.jpg">
       <source src="media/ca3_gradient_orbit.mp4" type="video/mp4">
@@ -140,26 +171,9 @@
     <p class="meta">#1 &middot; 12.5s &middot; 300 frames &middot; 8.9 MB &middot; 2026-07-29T22:14</p>
     <p class="note">sixth of a turn across the convergence gradient</p>
     
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/ca3/">https://amyleesterling.github.io/ca3/</a> as <code>gradient_orbit.mp4</code></p>
   </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">ca3</span><h2>synapse_story</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/ca3_synapse_story.jpg">
-      <source src="media/ca3_synapse_story.mp4" type="video/mp4">
-    </video>
-    <p class="meta">#7 &middot; 18.8s &middot; 452 frames &middot; 7.2 MB &middot; 2026-07-29T22:08:47</p>
-    <p class="note">widescreen master, the synapse sequence</p>
-    
-  </article>
-  <article class="item pending">
-    <div class="hd"><span class="proj">ca3</span><h2>build_sequence</h2><span class="badge">pending</span></div>
-    <video controls playsinline muted loop preload="metadata" poster="media/ca3_build_sequence.jpg">
-      <source src="media/ca3_build_sequence.mp4" type="video/mp4">
-    </video>
-    <p class="meta">#6 &middot; 20s &middot; 480 frames &middot; 12 MB &middot; 2026-07-29T20:58:18</p>
-    <p class="note">widescreen master, populations in circuit order</p>
-    
-  </article>
-  <article class="item pending">
+  <article class="item pending sec-deployed">
     <div class="hd"><span class="proj">ca3</span><h2>ap_six_fibre</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/ca3_ap_six_fibre.jpg">
       <source src="media/ca3_ap_six_fibre.mp4" type="video/mp4">
@@ -167,8 +181,9 @@
     <p class="meta">#10 &middot; 18s &middot; 432 frames &middot; 4 MB &middot; 2026-07-29T13:10:59</p>
     <p class="note">six mossy fibres, one fails and six together succeed</p>
     
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/ca3/">https://amyleesterling.github.io/ca3/</a> as <code>ap_six.mp4</code></p>
   </article>
-  <article class="item pending">
+  <article class="item pending sec-deployed">
     <div class="hd"><span class="proj">ca3</span><h2>cell_partners</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/ca3_cell_partners.jpg">
       <source src="media/ca3_cell_partners.mp4" type="video/mp4">
@@ -176,12 +191,84 @@
     <p class="meta">#11 &middot; 16s &middot; 384 frames &middot; 4.8 MB &middot; 2026-07-29T13:00:18</p>
     <p class="note">56 partner segments in purple</p>
     
+    <p class="live"><span class="dot"></span>live at <a href="https://amyleesterling.github.io/ca3/">https://amyleesterling.github.io/ca3/</a> as <code>cell_partners.mp4</code></p>
   </article>
 
+  <h2 class="sect grave"><span class="sicon">&#9760;</span>Graveyard<span class="scount">1</span></h2>
+  <p class="sblurb">Here lie the renders that did not make it. They are kept because a wrong
+  version you can still watch is worth more than one you deleted, and because most of these
+  were only wrong in a way nobody could see until it was rendered.</p>
+  <article class="item pending sec-graveyard">
+    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_final</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_final.jpg">
+      <source src="media/retina_ds_mosaic_final.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#3 &middot; 24s &middot; 576 frames &middot; 4 MB &middot; 2026-07-31T08:29:21</p>
+    <p class="note">202 calcium-imaged cells, CA3 palette, somas to camera, with readout overlays</p>
+    
+    <p class="epitaph"><span class="rip">cause of death</span> first version</p>
+  </article>
+
+  <details class="ogwrap">
+    <summary><span class="sicon">&#9733;</span>OG<span class="scount">5</span><span class="sopen">the first 48 hours</span></summary>
+    <p class="sblurb">Everything made before 31 July 2026, when this whole pipeline was two days old.</p>
+  <article class="item pending sec-og">
+    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic.jpg">
+      <source src="media/retina_ds_mosaic.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#2 &middot; 24s &middot; 576 frames &middot; 3.4 MB &middot; 2026-07-30T23:14:31</p>
+    <p class="note">180 calcium-imaged cells, hue = measured preferred direction, brightness = own tuning curve. For a 10am meeting.</p>
+    
+    
+  </article>
+  <article class="item pending sec-og">
+    <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_v1</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_v1.jpg">
+      <source src="media/retina_ds_mosaic_v1.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#4 &middot; 24s &middot; 576 frames &middot; 3.4 MB &middot; 2026-07-30T23:12:41</p>
+    <p class="note">first pass: rainbow palette, somas facing away. superseded</p>
+    
+    
+  </article>
+  <article class="item pending sec-og">
+    <div class="hd"><span class="proj">microns</span><h2>cortex_orbit</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/microns_cortex_orbit.jpg">
+      <source src="media/microns_cortex_orbit.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#5 &middot; 10s &middot; 240 frames &middot; 15.4 MB &middot; 2026-07-30T22:35:59</p>
+    <p class="note">orbit 72 deg then descend, per-area decimated</p>
+    
+    
+  </article>
+  <article class="item pending sec-og">
+    <div class="hd"><span class="proj">ca3</span><h2>synapse_story</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/ca3_synapse_story.jpg">
+      <source src="media/ca3_synapse_story.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#7 &middot; 18.8s &middot; 452 frames &middot; 7.2 MB &middot; 2026-07-29T22:08:47</p>
+    <p class="note">widescreen master, the synapse sequence</p>
+    
+    
+  </article>
+  <article class="item pending sec-og">
+    <div class="hd"><span class="proj">ca3</span><h2>build_sequence</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/ca3_build_sequence.jpg">
+      <source src="media/ca3_build_sequence.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#6 &middot; 20s &middot; 480 frames &middot; 12 MB &middot; 2026-07-29T20:58:18</p>
+    <p class="note">widescreen master, populations in circuit order</p>
+    
+    
+  </article>
+
+  </details>
   <footer>
     <code>review.ps1 approve -Id N</code> &middot;
     <code>review.ps1 reject -Id N -Note "why"</code> &middot;
-    <code>review.ps1 publish -Id N</code><br>
+    <code>review.ps1 publish -Id N</code> &middot;
+    <code>review.ps1 bury -Id N -Issue "why"</code><br>
     Publishing copies the file into the project repo. It does not write the page
     copy or commit, because placement and caption are editorial.
   </footer>
