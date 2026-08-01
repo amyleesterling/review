@@ -65,7 +65,9 @@
                       "status":  "pending",
                       "note":  "first pass: rainbow palette, somas facing away. superseded",
                       "review_note":  "",
-                      "source":  "D:\\Meshes\\renders\\retina_ds.mp4"
+                      "source":  "D:\\Meshes\\renders\\retina_ds.mp4",
+                      "buried":  true,
+                      "issue":  "old version"
                   },
                   {
                       "id":  5,
