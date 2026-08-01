@@ -302,11 +302,11 @@ switch ($Command) {
     $c_og   = @($ordered | Where-Object { $_.section -eq 'og' }).Count
     $n = @($ordered | Where-Object { $_.section -eq 'review' }).Count
 
-    $rows = $needs
+    $rows = "  <a id=""s-review""></a>`n" + $needs
     if ($c_live) {
       $rows += @"
 
-  <details class="depwrap" open>
+  <a id="s-deployed"></a><details class="depwrap" open>
     <summary><span class="sicon">&#9679;</span>Deployed<span class="scount">$c_live</span><span class="sopen">already on a site</span></summary>
     <p class="sblurb">Byte-for-byte identical to a file currently sitting in a project repo. Verified by hash, not by filename.</p>
 $live
@@ -316,7 +316,7 @@ $live
     if ($c_dead) {
       $rows += @"
 
-  <h2 class="sect grave"><span class="sicon">&#9760;</span>Graveyard<span class="scount">$c_dead</span></h2>
+  <a id="s-graveyard"></a><h2 class="sect grave"><span class="sicon">&#9760;</span>Graveyard<span class="scount">$c_dead</span></h2>
   <p class="sblurb">Here lie the renders that did not make it. They are kept because a wrong
   version you can still watch is worth more than one you deleted, and because most of these
   were only wrong in a way nobody could see until it was rendered.</p>
@@ -326,7 +326,7 @@ $dead
     if ($c_og) {
       $rows += @"
 
-  <details class="ogwrap">
+  <a id="s-og"></a><details class="ogwrap">
     <summary><span class="sicon">&#9733;</span>OG<span class="scount">$c_og</span><span class="sopen">the first 48 hours</span></summary>
     <p class="sblurb">Everything made before 31 July 2026, when this whole pipeline was two days old.</p>
 $og
@@ -367,6 +367,15 @@ $og
   .meta { margin:11px 0 0; font-size:12.5px; letter-spacing:.05em; color:var(--faint); }
   .note { margin:6px 0 0; font-size:14.5px; color:var(--dim); }
   .rn { margin:8px 0 0; font-size:14.5px; color:#D9A0A0; }
+  .jump { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 30px; }
+  .jump a { font-size:12px; letter-spacing:.09em; text-transform:uppercase;
+            color:var(--dim); text-decoration:none; padding:7px 12px;
+            border:1px solid var(--line); border-radius:999px;
+            background:rgba(20,26,36,.6); transition:border-color .2s, color .2s; }
+  .jump a:hover, .jump a:focus { color:var(--ink); border-color:rgba(62,150,240,.6); }
+  html { scroll-behavior:smooth; }
+  /* the anchor must clear the top of the viewport or the heading lands under it */
+  a[id^="s-"] { display:block; position:relative; top:-14px; }
   .empty { color:var(--dim); }
 
   /* ---- section headers ---------------------------------------------------- */
@@ -448,6 +457,15 @@ $og
   <h1>To review</h1>
   <p class="sub">$n waiting. Watch, then tell any agent to approve or reject by number.
   Everything already deployed, buried or from the first 48 hours is filed below.</p>
+  <!-- Jump links. On a phone the graveyard sits below eight videos, so without
+       these it is effectively hidden, and a section nobody can reach may as well
+       not exist. Anchors rather than script, so it works with nothing loaded. -->
+  <nav class="jump">
+    <a href="#s-review">$n to review</a>
+    <a href="#s-deployed">$c_live deployed</a>
+    <a href="#s-graveyard">$c_dead buried</a>
+    <a href="#s-og">$c_og OG</a>
+  </nav>
 
 $rows
   <footer>
