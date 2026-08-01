@@ -1,5 +1,5 @@
 {
-    "next_id":  15,
+    "next_id":  16,
     "items":  [
                   {
                       "id":  1,
@@ -224,6 +224,22 @@
                       "note":  "Corrected: cells now fire on the binned reported preferred direction, so hue and compass agree. Ghost raised so the mosaic stays visible between sweeps.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\retina_final_v4.mp4"
+                  },
+                  {
+                      "id":  15,
+                      "job":  9,
+                      "project":  "microns",
+                      "name":  "cortex_orbit_v2",
+                      "video":  "media/microns_cortex_orbit_v2.mp4",
+                      "poster":  "media/microns_cortex_orbit_v2.jpg",
+                      "size_mb":  16.6,
+                      "seconds":  10,
+                      "frames":  240,
+                      "rendered":  "2026-07-31T22:09:00",
+                      "status":  "pending",
+                      "note":  "camera ends tilted up, aiming mid column not below it. NO colour jitter, Amy does not want it: pure depth ramp.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\microns_orbit_v2.mp4"
                   }
               ]
 }
