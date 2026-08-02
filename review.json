@@ -1,5 +1,5 @@
 {
-    "next_id":  19,
+    "next_id":  20,
     "items":  [
                   {
                       "id":  1,
@@ -296,6 +296,22 @@
                       "note":  "Cells coloured by predicted cell type instead of depth. 36 of 38 typed: 11 x 23P, 8 x 5P-IT, 7 x 4P, 7 x 5P-ET, 1 x 6P-IT, 1 Martinotti, 1 oligodendrocyte. The lamination still appears even though colour is now identity, not position.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\microns_orbit_type.mp4"
+                  },
+                  {
+                      "id":  19,
+                      "job":  0,
+                      "project":  "retina",
+                      "name":  "ds_mosaic_364_bookend",
+                      "video":  "media/retina_ds_mosaic_364_bookend.mp4",
+                      "poster":  "media/retina_ds_mosaic_364_bookend.jpg",
+                      "size_mb":  3.7,
+                      "seconds":  31.5,
+                      "frames":  757,
+                      "rendered":  "2026-08-02T19:22:59",
+                      "status":  "pending",
+                      "note":  "All 364 cells, all 106 DS, with a fade in and out of the whole population. 757 frames, 31.5 s. Intro and outro are cross-dissolves in linear light, not rendered frames: the camera and geometry never move in this film so they are pixel-identical to rendering, at no GPU cost.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\retina_ds364_final.mp4"
                   }
               ]
 }
