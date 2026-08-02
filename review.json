@@ -1,5 +1,5 @@
 {
-    "next_id":  18,
+    "next_id":  19,
     "items":  [
                   {
                       "id":  1,
@@ -280,6 +280,22 @@
                       "note":  "All 364 cells, all 106 DS, on the rebuilt meshes_clean library. 43.1M faces. Test still at frame 86 checked: dendrites continuous, no beading. SLOW: 55-60 s/frame plus a 29 min import, about 10 hours. PNG sequence, resumable.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\retina_ds364.mp4"
+                  },
+                  {
+                      "id":  18,
+                      "job":  0,
+                      "project":  "microns",
+                      "name":  "cortex_orbit_type",
+                      "video":  "media/microns_cortex_orbit_type.mp4",
+                      "poster":  "media/microns_cortex_orbit_type.jpg",
+                      "size_mb":  13.9,
+                      "seconds":  10,
+                      "frames":  240,
+                      "rendered":  "2026-08-02T15:15:22",
+                      "status":  "pending",
+                      "note":  "Cells coloured by predicted cell type instead of depth. 36 of 38 typed: 11 x 23P, 8 x 5P-IT, 7 x 4P, 7 x 5P-ET, 1 x 6P-IT, 1 Martinotti, 1 oligodendrocyte. The lamination still appears even though colour is now identity, not position.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\microns_orbit_type.mp4"
                   }
               ]
 }
