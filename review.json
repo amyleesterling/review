@@ -1,5 +1,5 @@
 {
-    "next_id":  16,
+    "next_id":  17,
     "items":  [
                   {
                       "id":  1,
@@ -248,6 +248,22 @@
                       "note":  "camera ends tilted up, aiming mid column not below it. NO colour jitter, Amy does not want it: pure depth ramp.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\microns_orbit_v2.mp4"
+                  },
+                  {
+                      "id":  16,
+                      "job":  5,
+                      "project":  "banc",
+                      "name":  "shotB_descending_v2",
+                      "video":  "media/banc_shotB_descending_v2.mp4",
+                      "poster":  "media/banc_shotB_descending_v2.jpg",
+                      "size_mb":  5.1,
+                      "seconds":  24,
+                      "frames":  576,
+                      "rendered":  "2026-08-02T04:36:26",
+                      "status":  "pending",
+                      "note":  "PAUSED at 388/576 frames by Amy 31 Jul 09:25. PNG sequence, resumes exactly where it stopped. Set status back to queued to restart.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\banc_shotB.mp4"
                   }
               ]
 }
