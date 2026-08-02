@@ -1,5 +1,5 @@
 {
-    "next_id":  17,
+    "next_id":  18,
     "items":  [
                   {
                       "id":  1,
@@ -264,6 +264,22 @@
                       "note":  "PAUSED at 388/576 frames by Amy 31 Jul 09:25. PNG sequence, resumes exactly where it stopped. Set status back to queued to restart.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\banc_shotB.mp4"
+                  },
+                  {
+                      "id":  17,
+                      "job":  10,
+                      "project":  "retina",
+                      "name":  "ds_mosaic_364",
+                      "video":  "media/retina_ds_mosaic_364.mp4",
+                      "poster":  "media/retina_ds_mosaic_364.jpg",
+                      "size_mb":  3.4,
+                      "seconds":  24,
+                      "frames":  576,
+                      "rendered":  "2026-08-02T14:55:30",
+                      "status":  "pending",
+                      "note":  "All 364 cells, all 106 DS, on the rebuilt meshes_clean library. 43.1M faces. Test still at frame 86 checked: dendrites continuous, no beading. SLOW: 55-60 s/frame plus a 29 min import, about 10 hours. PNG sequence, resumable.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\retina_ds364.mp4"
                   }
               ]
 }
