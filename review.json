@@ -1,5 +1,5 @@
 {
-    "next_id":  21,
+    "next_id":  22,
     "items":  [
                   {
                       "id":  1,
@@ -332,6 +332,22 @@
                       "note":  "Cell-type orbit with the burned-in legend: every type with its swatch, full name and count, plus \u0027colour is identity, not depth\u0027. Live on the cortex page.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\microns_orbit_type_labelled.mp4"
+                  },
+                  {
+                      "id":  21,
+                      "job":  0,
+                      "project":  "retina",
+                      "name":  "ds_mosaic_364_sequence",
+                      "video":  "media/retina_ds_mosaic_364_sequence.mp4",
+                      "poster":  "media/retina_ds_mosaic_364_sequence.jpg",
+                      "size_mb":  5,
+                      "seconds":  39,
+                      "frames":  937,
+                      "rendered":  "2026-08-03T12:11:54",
+                      "status":  "pending",
+                      "note":  "Full sequence: five recording fields, recoloured to cell type, non-selective cells fall away, then the bar sweeps. 937 frames, 39s. Each stage labelled with the key true of it. The 324 opening and closing frames are dissolves in linear light, not renders: nothing moves in this film except colour.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\retina_ds364_final.mp4"
                   }
               ]
 }
