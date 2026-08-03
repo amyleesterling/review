@@ -315,7 +315,9 @@
                       "status":  "pending",
                       "note":  "All 364 cells, all 106 DS, with a fade in and out of the whole population. 757 frames, 31.5 s. Intro and outro are cross-dissolves in linear light, not rendered frames: the camera and geometry never move in this film so they are pixel-identical to rendering, at no GPU cost.",
                       "review_note":  "",
-                      "source":  "D:\\Meshes\\renders\\retina_ds364_final.mp4"
+                      "source":  "D:\\Meshes\\renders\\retina_ds364_final.mp4",
+                      "buried":  true,
+                      "issue":  "superseded: only had a plain all-cells fade, before the cluster and cell-type stages existed"
                   },
                   {
                       "id":  20,
