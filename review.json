@@ -279,7 +279,9 @@
                       "status":  "pending",
                       "note":  "All 364 cells, all 106 DS, on the rebuilt meshes_clean library. 43.1M faces. Test still at frame 86 checked: dendrites continuous, no beading. SLOW: 55-60 s/frame plus a 29 min import, about 10 hours. PNG sequence, resumable.",
                       "review_note":  "",
-                      "source":  "D:\\Meshes\\renders\\retina_ds364.mp4"
+                      "source":  "D:\\Meshes\\renders\\retina_ds364.mp4",
+                      "buried":  true,
+                      "issue":  "no overlay: the queue rendered it but never ran the overlay step, so it shipped with no colour key, compass or readout"
                   },
                   {
                       "id":  18,
