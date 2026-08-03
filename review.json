@@ -1,5 +1,5 @@
 {
-    "next_id":  20,
+    "next_id":  21,
     "items":  [
                   {
                       "id":  1,
@@ -312,6 +312,22 @@
                       "note":  "All 364 cells, all 106 DS, with a fade in and out of the whole population. 757 frames, 31.5 s. Intro and outro are cross-dissolves in linear light, not rendered frames: the camera and geometry never move in this film so they are pixel-identical to rendering, at no GPU cost.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\retina_ds364_final.mp4"
+                  },
+                  {
+                      "id":  20,
+                      "job":  0,
+                      "project":  "microns",
+                      "name":  "cortex_orbit_type_labelled",
+                      "video":  "media/microns_cortex_orbit_type_labelled.mp4",
+                      "poster":  "media/microns_cortex_orbit_type_labelled.jpg",
+                      "size_mb":  7.6,
+                      "seconds":  8,
+                      "frames":  240,
+                      "rendered":  "2026-08-03T09:23:56",
+                      "status":  "pending",
+                      "note":  "Cell-type orbit with the burned-in legend: every type with its swatch, full name and count, plus \u0027colour is identity, not depth\u0027. Live on the cortex page.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\microns_orbit_type_labelled.mp4"
                   }
               ]
 }
