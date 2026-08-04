@@ -1,5 +1,5 @@
 {
-    "next_id":  22,
+    "next_id":  23,
     "items":  [
                   {
                       "id":  1,
@@ -350,6 +350,22 @@
                       "note":  "Full sequence: five recording fields, recoloured to cell type, non-selective cells fall away, then the bar sweeps. 937 frames, 39s. Each stage labelled with the key true of it. The 324 opening and closing frames are dissolves in linear light, not renders: nothing moves in this film except colour.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\retina_ds364_final.mp4"
+                  },
+                  {
+                      "id":  22,
+                      "job":  12,
+                      "project":  "banc",
+                      "name":  "shotB_relabelled",
+                      "video":  "media/banc_shotB_relabelled.mp4",
+                      "poster":  "media/banc_shotB_relabelled.jpg",
+                      "size_mb":  5.7,
+                      "seconds":  24,
+                      "frames":  576,
+                      "rendered":  "2026-08-04T03:15:03",
+                      "status":  "pending",
+                      "note":  "Retimed: opening hold 3.4s -\u003e 1.0s and the second dead hold removed, measured frame difference was under 0.005 in both. Alpha switched BLEND -\u003e HASHED: the white DN was dropping to zero visible pixels on single frames between 15-17s because EEVEE sorts blended surfaces per object. Labels come from shotB_beats.json which the render itself writes.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\banc_shotB_v3.mp4"
                   }
               ]
 }

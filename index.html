@@ -119,19 +119,29 @@
 <body>
 <div class="wrap">
   <h1>To review</h1>
-  <p class="sub">3 waiting. Watch, then tell any agent to approve or reject by number.
+  <p class="sub">4 waiting. Watch, then tell any agent to approve or reject by number.
   Everything already deployed, buried or from the first 48 hours is filed below.</p>
   <!-- Jump links. On a phone the graveyard sits below eight videos, so without
        these it is effectively hidden, and a section nobody can reach may as well
        not exist. Anchors rather than script, so it works with nothing loaded. -->
   <nav class="jump">
-    <a href="#s-review">3 to review</a>
+    <a href="#s-review">4 to review</a>
     <a href="#s-deployed">8 deployed</a>
     <a href="#s-graveyard">7 buried</a>
     <a href="#s-og">3 OG</a>
   </nav>
 
   <a id="s-review"></a>
+  <article class="item pending sec-review">
+    <div class="hd"><span class="proj">banc</span><h2>shotB_relabelled</h2><span class="badge">pending</span></div>
+    <video controls playsinline muted loop preload="metadata" poster="media/banc_shotB_relabelled.jpg">
+      <source src="media/banc_shotB_relabelled.mp4" type="video/mp4">
+    </video>
+    <p class="meta">#22 &middot; 24s &middot; 576 frames &middot; 5.7 MB &middot; 2026-08-04T03:15:03</p>
+    <p class="note">Retimed: opening hold 3.4s -> 1.0s and the second dead hold removed, measured frame difference was under 0.005 in both. Alpha switched BLEND -> HASHED: the white DN was dropping to zero visible pixels on single frames between 15-17s because EEVEE sorts blended surfaces per object. Labels come from shotB_beats.json which the render itself writes.</p>
+    
+    
+  </article>
   <article class="item pending sec-review">
     <div class="hd"><span class="proj">retina</span><h2>ds_mosaic_364_sequence</h2><span class="badge">pending</span></div>
     <video controls playsinline muted loop preload="metadata" poster="media/retina_ds_mosaic_364_sequence.jpg">
