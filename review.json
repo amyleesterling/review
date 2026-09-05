@@ -1,5 +1,5 @@
 {
-    "next_id":  23,
+    "next_id":  24,
     "items":  [
                   {
                       "id":  1,
@@ -366,6 +366,22 @@
                       "note":  "Retimed: opening hold 3.4s -\u003e 1.0s and the second dead hold removed, measured frame difference was under 0.005 in both. Alpha switched BLEND -\u003e HASHED: the white DN was dropping to zero visible pixels on single frames between 15-17s because EEVEE sorts blended surfaces per object. Labels come from shotB_beats.json which the render itself writes.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\banc_shotB_v3.mp4"
+                  },
+                  {
+                      "id":  23,
+                      "job":  18,
+                      "project":  "brain",
+                      "name":  "hairy_brain_360",
+                      "video":  "media/brain_hairy_brain_360.mp4",
+                      "poster":  "media/brain_hairy_brain_360.jpg",
+                      "size_mb":  5.1,
+                      "seconds":  15,
+                      "frames":  360,
+                      "rendered":  "2026-09-05T03:14:01",
+                      "status":  "pending",
+                      "note":  "Pial surface + 2.4M direction-coloured hair strands, Cycles, 360 turntable 15 s at 24 fps. Beats 100 and 250 checked at 1920x1080/128 samples: gyri legible, colours right, shadow catcher floor. 16 s/frame measured.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\hairy_brain_360.mp4"
                   }
               ]
 }
