@@ -1,5 +1,5 @@
 {
-    "next_id":  24,
+    "next_id":  25,
     "items":  [
                   {
                       "id":  1,
@@ -382,6 +382,22 @@
                       "note":  "Pial surface + 2.4M direction-coloured hair strands, Cycles, 360 turntable 15 s at 24 fps. Beats 100 and 250 checked at 1920x1080/128 samples: gyri legible, colours right, shadow catcher floor. 16 s/frame measured.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\hairy_brain_360.mp4"
+                  },
+                  {
+                      "id":  24,
+                      "job":  19,
+                      "project":  "brain",
+                      "name":  "hairy_brain_360_golddots",
+                      "video":  "media/brain_hairy_brain_360_golddots.mp4",
+                      "poster":  "media/brain_hairy_brain_360_golddots.jpg",
+                      "size_mb":  9.3,
+                      "seconds":  15,
+                      "frames":  360,
+                      "rendered":  "2026-09-06T03:28:21",
+                      "status":  "pending",
+                      "note":  "Golden dot hologram, camera level with brain centre, 1.4x back (longer lens). Height sweep 0-100% checked as stills 5 Sept. ~14 s/frame.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\hairy_brain_360_golddots.mp4"
                   }
               ]
 }
