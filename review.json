@@ -1,5 +1,5 @@
 {
-    "next_id":  26,
+    "next_id":  27,
     "items":  [
                   {
                       "id":  1,
@@ -414,6 +414,22 @@
                       "note":  "v2 of job 19: area lights were reflecting in the glossy floor as a pale rectangle behind the brain for part of the turn. Lights now hidden from glossy rays; beats 120 and 200 checked clean 6 Sept. Existing frames moved aside by the queue.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\hairy_brain_360_golddots.mp4"
+                  },
+                  {
+                      "id":  26,
+                      "job":  25,
+                      "project":  "brain",
+                      "name":  "hairy_brain_360_rainbow",
+                      "video":  "media/brain_hairy_brain_360_rainbow.mp4",
+                      "poster":  "media/brain_hairy_brain_360_rainbow.jpg",
+                      "size_mb":  6.4,
+                      "seconds":  15,
+                      "frames":  360,
+                      "rendered":  "2026-09-07T04:18:35",
+                      "status":  "pending",
+                      "note":  "Full rainbow 2 mm fur, the look from the 4 Sept stills Amy picked. Beats 120/240 checked 6 Sept. Lights ride with camera.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\hairy_brain_360_rainbow.mp4"
                   }
               ]
 }
