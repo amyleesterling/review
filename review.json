@@ -1,5 +1,5 @@
 {
-    "next_id":  25,
+    "next_id":  26,
     "items":  [
                   {
                       "id":  1,
@@ -396,6 +396,22 @@
                       "rendered":  "2026-09-06T03:28:21",
                       "status":  "pending",
                       "note":  "Golden dot hologram, camera level with brain centre, 1.4x back (longer lens). Height sweep 0-100% checked as stills 5 Sept. ~14 s/frame.",
+                      "review_note":  "",
+                      "source":  "D:\\Meshes\\renders\\hairy_brain_360_golddots.mp4"
+                  },
+                  {
+                      "id":  25,
+                      "job":  22,
+                      "project":  "brain",
+                      "name":  "hairy_brain_360_golddots_v2",
+                      "video":  "media/brain_hairy_brain_360_golddots_v2.mp4",
+                      "poster":  "media/brain_hairy_brain_360_golddots_v2.jpg",
+                      "size_mb":  9.3,
+                      "seconds":  15,
+                      "frames":  360,
+                      "rendered":  "2026-09-07T03:01:00",
+                      "status":  "pending",
+                      "note":  "v2 of job 19: area lights were reflecting in the glossy floor as a pale rectangle behind the brain for part of the turn. Lights now hidden from glossy rays; beats 120 and 200 checked clean 6 Sept. Existing frames moved aside by the queue.",
                       "review_note":  "",
                       "source":  "D:\\Meshes\\renders\\hairy_brain_360_golddots.mp4"
                   }
